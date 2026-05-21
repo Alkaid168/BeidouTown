@@ -11,12 +11,12 @@ const townAreas = [
   {
     name: '树洞邮局',
     description: '投递心情、思考和不便署名的话。',
-    href: null,
+    href: '/treehole',
   },
   {
     name: '寺庙',
     description: '抽取塔罗牌，让星光给出一段解读。',
-    href: null,
+    href: '/temple',
   },
 ];
 
