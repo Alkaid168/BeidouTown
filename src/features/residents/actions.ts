@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { signIn, signOut } from '@/auth';
 import { registerResident } from './registration';
+import { shouldRethrowLoginError } from './redirect-errors';
 
 export async function registerResidentAction(formData: FormData) {
   const result = await registerResident({
@@ -25,7 +26,11 @@ export async function loginResidentAction(formData: FormData) {
       password: String(formData.get('password') ?? ''),
       redirectTo: '/',
     });
-  } catch {
+  } catch (error) {
+    if (shouldRethrowLoginError(error)) {
+      throw error;
+    }
+
     redirect('/login?error=1');
   }
 }
