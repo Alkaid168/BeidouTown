@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum AdminActionType {
+  DELETE_TAVERN_MESSAGE
+  DELETE_TREEHOLE_POST
+}
+
+model User {
+  id             String           @id @default(cuid())
+  email          String           @unique
+  passwordHash   String
+  nickname       String
+  avatarUrl      String?
+  role           UserRole         @default(USER)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  tavernMessages TavernMessage[]
+  treeholePosts  TreeholePost[]
+  tarotReadings  TarotReading[]
+  adminActions   AdminAction[]
+}
+
+model TavernMessage {
+  id        String   @id @default(cuid())
+  authorId  String
+  content   String
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([authorId])
+}
+
+model TreeholePost {
+  id          String   @id @default(cuid())
+  authorId    String
+  content     String
+  isAnonymous Boolean  @default(true)
+  isDeleted   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([authorId])
+}
+
+model TarotReading {
+  id        String   @id @default(cuid())
+  userId    String
+  question  String
+  cards     Json
+  reading   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([userId])
+}
+
+model AdminAction {
+  id         String          @id @default(cuid())
+  adminId    String
+  actionType AdminActionType
+  targetId   String
+  createdAt  DateTime        @default(now())
+  admin      User            @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@index([targetId])
+  @@index([createdAt])
+}
