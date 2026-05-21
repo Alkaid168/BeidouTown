@@ -20,15 +20,17 @@
 ```bash
 corepack pnpm install
 cp .env.example .env.local
+docker compose up -d postgres
 corepack pnpm db:generate
+corepack pnpm db:migrate
+corepack pnpm db:seed
 corepack pnpm dev
 ```
 
-如果连接了本地 PostgreSQL，可运行：
+默认本地管理员：
 
-```bash
-corepack pnpm db:migrate
-```
+- 邮箱：`admin@beidou.local`
+- 密码：`beidou-admin-123456`
 
 打开 http://localhost:3000 查看本地页面。
 
