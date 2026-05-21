@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed",
     "db:studio": "prisma studio"
   },
   "dependencies": {
@@ -38,8 +39,12 @@
     "eslint-config-next": "latest",
     "jsdom": "^29.1.1",
     "prisma": "^6.19.3",
+    "tsx": "^4.22.3",
     "typescript": "latest",
     "vitest": "^4.1.6"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "packageManager": "pnpm@11.1.3"
 }

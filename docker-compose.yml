@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: beidou-town-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: beidou_town
+      POSTGRES_USER: beidou
+      POSTGRES_PASSWORD: beidou
+    ports:
+      - "5432:5432"
+    volumes:
+      - beidou-town-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U beidou -d beidou_town"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  beidou-town-postgres-data:
