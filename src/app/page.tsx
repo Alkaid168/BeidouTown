@@ -6,14 +6,17 @@ const townAreas = [
   {
     name: '小酒馆',
     description: '居民们在夜色里闲聊的公共房间。',
+    href: '/tavern',
   },
   {
     name: '树洞邮局',
     description: '投递心情、思考和不便署名的话。',
+    href: null,
   },
   {
     name: '寺庙',
     description: '抽取塔罗牌，让星光给出一段解读。',
+    href: null,
   },
 ];
 
@@ -37,14 +40,27 @@ export default async function Home() {
             <p className="mt-8 text-amber-100">欢迎回来，{resident.name ?? '居民'}。</p>
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               {townAreas.map((area) => (
-                <article
-                  className="group rounded-[2rem] border border-amber-100/15 bg-stone-100/[0.06] p-7 shadow-2xl shadow-indigo-950/50 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-amber-200/40 hover:bg-stone-100/[0.09]"
-                  key={area.name}
-                >
-                  <div className="mb-8 h-1 w-12 rounded-full bg-amber-200/70 transition group-hover:w-20" />
-                  <h2 className="text-2xl font-medium text-stone-50">{area.name}</h2>
-                  <p className="mt-4 text-sm leading-6 text-stone-300">{area.description}</p>
-                </article>
+                area.href ? (
+                  <Link
+                    className="group rounded-[2rem] border border-amber-100/15 bg-stone-100/[0.06] p-7 shadow-2xl shadow-indigo-950/50 backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-amber-200/40 hover:bg-stone-100/[0.09]"
+                    href={area.href}
+                    key={area.name}
+                  >
+                    <div className="mb-8 h-1 w-12 rounded-full bg-amber-200/70 transition group-hover:w-20" />
+                    <h2 className="text-2xl font-medium text-stone-50">{area.name}</h2>
+                    <p className="mt-4 text-sm leading-6 text-stone-300">{area.description}</p>
+                  </Link>
+                ) : (
+                  <article
+                    className="rounded-[2rem] border border-amber-100/10 bg-stone-100/[0.03] p-7 opacity-70 shadow-2xl shadow-indigo-950/30 backdrop-blur"
+                    key={area.name}
+                  >
+                    <div className="mb-8 h-1 w-12 rounded-full bg-stone-400/40" />
+                    <h2 className="text-2xl font-medium text-stone-50">{area.name}</h2>
+                    <p className="mt-4 text-sm leading-6 text-stone-300">{area.description}</p>
+                    <p className="mt-6 text-xs tracking-[0.25em] text-stone-500">COMING SOON</p>
+                  </article>
+                )
               ))}
             </div>
           </>
