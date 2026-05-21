@@ -9,7 +9,7 @@
 
 ## 当前状态
 
-项目处于早期设计与工程初始化阶段。
+项目处于早期工程初始化阶段。
 
 设计规格见：
 
@@ -17,12 +17,17 @@
 
 ## 本地开发
 
-项目骨架将在下一阶段创建。完成后将使用：
-
 ```bash
-pnpm install
-pnpm dev
+corepack pnpm install
+cp .env.example .env.local
+corepack pnpm dev
 ```
+
+打开 http://localhost:3000 查看本地页面。
+
+## 环境变量
+
+`.env.example` 列出了本地开发所需变量。不要提交 `.env` 或 `.env.local`。
 
 ## 开源协议
 
