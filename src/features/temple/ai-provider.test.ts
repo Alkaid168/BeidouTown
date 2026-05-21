@@ -33,7 +33,7 @@ describe('createNayutoTarotProvider', () => {
         },
       }),
     );
-    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toMatchObject({ model: 'openai/gpt-5.4-mini' });
+    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toMatchObject({ model: 'gpt-5.4-mini' });
   });
 
   it('parses nested response text', async () => {

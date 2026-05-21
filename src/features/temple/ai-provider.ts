@@ -25,7 +25,7 @@ type NayutoTarotProviderOptions = {
 };
 
 const defaultBaseUrl = 'https://api.nayutoai.online/v1';
-const defaultModel = 'openai/gpt-5.4-mini';
+const defaultModel = 'gpt-5.4-mini';
 
 export class TarotAiProviderError extends Error {
   constructor(public readonly code: TarotAiProviderErrorCode) {
