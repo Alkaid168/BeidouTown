@@ -20,7 +20,14 @@
 ```bash
 corepack pnpm install
 cp .env.example .env.local
+corepack pnpm db:generate
 corepack pnpm dev
+```
+
+如果连接了本地 PostgreSQL，可运行：
+
+```bash
+corepack pnpm db:migrate
 ```
 
 打开 http://localhost:3000 查看本地页面。
