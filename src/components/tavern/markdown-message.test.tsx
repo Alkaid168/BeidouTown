@@ -25,9 +25,18 @@ describe('MarkdownMessage', () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(2);
   });
 
-  it('uses Consolas for inline code', () => {
-    render(<MarkdownMessage content="输入 `pnpm dev`" />);
+  it('preserves plain newlines inside a message paragraph', () => {
+    render(<MarkdownMessage content={'第一行\n第二行'} />);
 
-    expect(screen.getByText('pnpm dev')).toHaveStyle({ fontFamily: 'Consolas, monospace' });
+    expect(screen.getByText(/第一行/).tagName).toBe('P');
+    expect(screen.getByText(/第一行/)).toHaveClass('whitespace-pre-wrap');
+  });
+
+  it('renders tavern markdown with the warm palette classes', () => {
+    render(<MarkdownMessage content={'[链接](https://example.com)\n\n`code`\n\n> 引文'} />);
+
+    expect(screen.getByRole('link', { name: '链接' })).toHaveClass('text-amber-100');
+    expect(screen.getByText('code')).toHaveClass('bg-[rgba(30,20,14,0.72)]');
+    expect(screen.getByText('引文').closest('blockquote')).toHaveClass('border-l-2');
   });
 });

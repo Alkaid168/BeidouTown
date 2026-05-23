@@ -7,9 +7,14 @@ export default async function TavernPage() {
   const messages = await listRecentTavernMessages(resident);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#02030a] px-6 py-10 text-stone-100">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(79,70,229,0.28),transparent_34%),radial-gradient(circle_at_80%_10%,rgba(234,179,8,0.12),transparent_28%),linear-gradient(180deg,rgba(15,23,42,0),#02030a_78%)]" />
-      <section className="relative mx-auto w-full max-w-6xl">
+    <main className="relative min-h-screen overflow-hidden bg-[#05060d] text-stone-100">
+      <div className="absolute inset-0 bg-[url('/tavern-background.jpeg')] bg-cover bg-center opacity-88" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_52%_78%,rgba(255,182,96,0.28),transparent_48%),radial-gradient(ellipse_at_30%_24%,rgba(255,214,160,0.18),transparent_34%),radial-gradient(circle_at_18%_24%,rgba(119,167,255,0.08),transparent_26%),linear-gradient(180deg,rgba(6,4,2,0.20)_0%,rgba(5,3,2,0.56)_44%,rgba(3,2,1,0.90)_100%)]" />
+      <div className="absolute inset-0 backdrop-blur-[1.5px]" />
+      <div className="absolute inset-0 shadow-[inset_0_0_240px_rgba(0,0,0,0.88),inset_0_120px_180px_rgba(0,0,0,0.42),inset_0_-120px_180px_rgba(0,0,0,0.40)]" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGRlZnM+PGZpbHRlciBpZD0iZyI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9Ii42IiBudW1PY3RhdmVzPSIyIiAvPjwvZmlsdGVyPjwvZGVmcz48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbHRlcj0idXJsKCNnKSIgb3BhY2l0eT0iLjAyIiAvPjwvc3ZnPg==')] bg-fixed opacity-60" />
+
+      <section className="relative mx-auto flex min-h-screen w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-10">
         <TavernClient initialMessages={messages} resident={resident} />
       </section>
     </main>

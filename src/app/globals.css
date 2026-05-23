@@ -16,3 +16,171 @@ body {
   margin: 0;
   background: #02030a;
 }
+
+@keyframes beidou-orbit {
+  from {
+    transform: rotate(-8deg);
+  }
+
+  to {
+    transform: rotate(352deg);
+  }
+}
+
+@keyframes cursor-aura {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.92);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg) scale(1.06);
+  }
+}
+
+@keyframes home-title-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+    filter: blur(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes home-constellation-in {
+  from {
+    opacity: 0;
+    transform: scale(0.68) rotate(-18deg);
+    filter: blur(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(-8deg);
+    filter: blur(0);
+  }
+}
+
+@keyframes star-appear {
+  from {
+    opacity: 0;
+    filter: blur(12px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes page-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.4rem);
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes starfield-drift {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 172px -86px;
+  }
+}
+
+@keyframes aurora-sweep {
+  0%, 100% {
+    transform: translateX(-18%) skewX(-10deg);
+    opacity: 0.16;
+  }
+
+  50% {
+    transform: translateX(18%) skewX(-10deg);
+    opacity: 0.34;
+  }
+}
+
+@keyframes constellation-line {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(147, 197, 253, 0.28));
+    opacity: 0.34;
+  }
+
+  50% {
+    filter: drop-shadow(0 0 12px rgba(252, 211, 77, 0.42));
+    opacity: 0.58;
+  }
+}
+
+@keyframes star-breathe {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.86;
+  }
+
+  50% {
+    transform: scale(1.16);
+    opacity: 1;
+  }
+}
+
+@keyframes star-aura {
+  0%, 100% {
+    transform: rotate(0deg) scale(0.86);
+    filter: hue-rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(160deg) scale(1.18);
+    filter: hue-rotate(46deg);
+  }
+}
+
+@keyframes tavern-composer-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tavern-meta-fade {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tavern-candle-flicker {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+
+  50% {
+    opacity: 0.94;
+    filter: brightness(1.06);
+  }
+}
