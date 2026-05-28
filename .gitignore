@@ -27,8 +27,20 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# OS / editor
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
+# local workflow / temporary
+.superpowers/
+*.bat
+
+# raw source assets kept outside the shipped public/ tree
+talo_images/
+主页背景图.png
+登录注册页背景图.png
+邮局树洞背景图.png
+邮局树洞投稿背景图.png
+邮局树洞信背景图.png
+占卜寺庙背景图.png
+占卜酒馆占卜背景图.png
+塔罗牌牌背.png
+塔罗牌卡面模板.png
+聊天酒馆背景图.jpeg
+
