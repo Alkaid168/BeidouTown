@@ -9,6 +9,7 @@ import { getAdaptiveStarLayout, getStarFrame } from './star-layout';
 import type { AdaptiveStar } from './star-layout';
 
 const DEFAULT_HOME_ASPECT_RATIO = 16 / 9;
+const HOME_STARTED_SESSION_KEY = 'beidou-home-started-resident';
 
 type StarDestination = AdaptiveStar;
 
@@ -17,8 +18,39 @@ function getViewportAspectRatio() {
 }
 
 export function HomeClient({ resident }: { resident: CurrentResident | null }) {
-  const [started, setStarted] = useState(Boolean(resident));
+  const [hydrated, setHydrated] = useState(false);
+  const [started, setStarted] = useState(false);
   const [cursorTarget, setCursorTarget] = useState({ x: 62, y: 38 });
+
+  useEffect(() => {
+    if (!resident) {
+      setStarted(false);
+      setHydrated(true);
+      return;
+    }
+
+    setStarted(window.sessionStorage.getItem(HOME_STARTED_SESSION_KEY) === '1');
+    setHydrated(true);
+  }, [resident]);
+
+  useEffect(() => {
+    function handleKeydown() {
+      setStarted((current) => {
+        if (current) {
+          return current;
+        }
+
+        if (resident) {
+          window.sessionStorage.setItem(HOME_STARTED_SESSION_KEY, '1');
+        }
+        document.documentElement.requestFullscreen?.().catch(() => undefined);
+        return true;
+      });
+    }
+
+    window.addEventListener('keydown', handleKeydown);
+    return () => window.removeEventListener('keydown', handleKeydown);
+  }, [resident]);
 
   function updateCursor(event: MouseEvent<HTMLElement>) {
     setCursorTarget({
@@ -32,6 +64,9 @@ export function HomeClient({ resident }: { resident: CurrentResident | null }) {
       return;
     }
 
+    if (resident) {
+      window.sessionStorage.setItem(HOME_STARTED_SESSION_KEY, '1');
+    }
     setStarted(true);
     document.documentElement.requestFullscreen?.().catch(() => undefined);
   }
@@ -39,7 +74,6 @@ export function HomeClient({ resident }: { resident: CurrentResident | null }) {
   return (
     <main
       className="relative min-h-screen overflow-hidden bg-[#05050a] text-stone-50"
-      onClick={resident ? undefined : startTitleScreen}
       onMouseMove={updateCursor}
       style={{ '--cursor-x': `${cursorTarget.x}%`, '--cursor-y': `${cursorTarget.y}%` } as CSSProperties}
     >
@@ -50,12 +84,36 @@ export function HomeClient({ resident }: { resident: CurrentResident | null }) {
       <div data-testid="cursor-aura" className="pointer-events-none absolute left-[var(--cursor-x)] top-[var(--cursor-y)] size-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,214,244,0.24)_0%,rgba(125,211,252,0.13)_34%,rgba(250,204,21,0.05)_55%,transparent_76%)] blur-2xl opacity-55 mix-blend-screen transition-[left,top] duration-500 ease-out animate-[cursor-aura_9s_linear_infinite]" />
       <div className="absolute inset-0 shadow-[inset_0_0_170px_rgba(0,0,0,0.84)]" />
 
-      {resident ? <ResidentConstellation resident={resident} /> : <GuestTitleScreen started={started} />}
+      {!hydrated || !started ? <SharedIntroGate onStart={startTitleScreen} /> : null}
+      {hydrated && started && resident ? <ResidentConstellation resident={resident} /> : null}
+      {hydrated && started && !resident ? <GuestMemoryMenu /> : null}
     </main>
   );
 }
 
-function GuestTitleScreen({ started }: { started: boolean }) {
+function SharedIntroGate({ onStart }: { onStart: () => void }) {
+  return (
+    <section className="relative z-20 flex min-h-screen w-full items-center px-8 sm:px-16 lg:px-24">
+      <div className="w-full max-w-3xl text-center lg:text-left">
+        <p className="mb-5 text-xs tracking-[0.85em] text-cyan-100/70">THE SEVENTH LIGHT OPENS</p>
+        <h1 className="font-serif text-7xl font-semibold tracking-[0.26em] text-stone-50 drop-shadow-[0_0_24px_rgba(154,211,255,0.38)] sm:text-8xl lg:text-9xl">
+          北斗镇
+        </h1>
+        <p className="mt-6 max-w-xl text-sm leading-7 tracking-[0.42em] text-stone-200/72 lg:mx-0">在星夜里醒来，选择一段记忆的入口</p>
+        <button
+          aria-label="按任意键开始"
+          className="mt-20 bg-transparent text-sm tracking-[0.42em] text-stone-100/45 transition duration-700 hover:text-stone-100/80 animate-pulse"
+          onClick={onStart}
+          type="button"
+        >
+          按任意键开始
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function GuestMemoryMenu() {
   return (
     <section className="relative z-10 flex min-h-screen w-full items-center px-8 sm:px-16 lg:px-24">
       <div className="w-full max-w-3xl text-center lg:text-left">
@@ -63,15 +121,8 @@ function GuestTitleScreen({ started }: { started: boolean }) {
         <h1 className="font-serif text-7xl font-semibold tracking-[0.26em] text-stone-50 drop-shadow-[0_0_24px_rgba(154,211,255,0.38)] sm:text-8xl lg:text-9xl">
           北斗镇
         </h1>
-        <p className="mt-6 max-w-xl text-sm leading-7 tracking-[0.42em] text-stone-200/72 lg:mx-0">
-          在星夜里醒来，选择一段记忆的入口
-        </p>
-
-        <p className={`mt-20 text-sm tracking-[0.42em] text-stone-100/45 transition duration-700 ${started ? '-translate-y-4 opacity-0 blur-sm' : 'animate-pulse'}`}>
-          点击任意位置开始
-        </p>
-
-        <nav aria-label="北斗镇记忆菜单" className={`mt-8 grid gap-7 transition-all duration-1000 ${started ? 'translate-y-0 opacity-100 blur-0' : 'translate-y-6 opacity-0 blur-md'}`} onClick={(event) => event.stopPropagation()}>
+        <p className="mt-6 max-w-xl text-sm leading-7 tracking-[0.42em] text-stone-200/72 lg:mx-0">在星夜里醒来，选择一段记忆的入口</p>
+        <nav aria-label="北斗镇记忆菜单" className="mt-8 grid gap-7 transition-all duration-1000 translate-y-0 opacity-100 blur-0">
           <TitleLink eyebrow="新的开始" href="/register" label="NEW START" />
           <TitleLink eyebrow="载入记忆" href="/login" label="LOAD MEMORY" />
         </nav>
@@ -159,8 +210,27 @@ function ResidentConstellation({ resident }: { resident: CurrentResident }) {
           {stars.map((star) => <StarNode key={star.name} onBlur={() => setHoveredStar(null)} onFocus={showFocusedStarLabel} onHover={showStarLabel} onLeave={() => setHoveredStar(null)} star={star} />)}
         </div>
       </div>
+      <ResidentProfileEntry resident={resident} />
       <StarLabel position={labelPosition} star={hoveredStar} />
     </section>
+  );
+}
+
+function ResidentProfileEntry({ resident }: { resident: CurrentResident }) {
+  return (
+    <Link aria-label={`进入${resident.name ?? '这位居民'}的住民档案`} className="group pointer-events-auto absolute bottom-8 left-8 z-[70] flex items-end gap-4" href="/resident">
+      <span className="relative flex size-14 items-center justify-center overflow-hidden rounded-full border border-cyan-100/20 bg-[rgba(15,19,31,0.72)] shadow-[0_0_24px_rgba(125,211,252,0.14)] transition duration-500 group-hover:scale-105 group-hover:border-cyan-100/45 group-hover:shadow-[0_0_36px_rgba(125,211,252,0.24)]">
+        {resident.image ? (
+          <img alt={resident.name ?? '居民头像'} className="h-full w-full object-cover" src={resident.image} />
+        ) : (
+          <span className="font-serif text-xl text-stone-100">{(resident.name ?? '居').slice(0, 1)}</span>
+        )}
+        <span className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.16),transparent_58%)]" />
+      </span>
+      <span className="translate-y-1 text-sm tracking-[0.32em] text-stone-100/0 transition duration-500 group-hover:translate-y-0 group-hover:text-stone-100/78 group-focus-visible:translate-y-0 group-focus-visible:text-stone-100/78">
+        {resident.name ?? '居民'}
+      </span>
+    </Link>
   );
 }
 

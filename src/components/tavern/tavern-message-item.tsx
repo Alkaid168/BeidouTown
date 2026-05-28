@@ -21,7 +21,7 @@ export function TavernMessageItem({
 }) {
   return (
     <div className="group relative flex items-start gap-3">
-      <TavernAvatar nickname={message.author.nickname} />
+      <TavernAvatar avatarUrl={message.author.avatarUrl} nickname={message.author.nickname} />
       <div className="relative min-w-0 max-w-[min(44rem,calc(100%-4rem))] pl-1">
         <div className="pointer-events-none absolute left-0 top-0 z-10 -translate-y-[calc(100%+0.45rem)] opacity-0 transition duration-200 group-hover:opacity-100" data-testid={`message-meta-${message.id}`}>
           <div className="rounded-full border border-amber-200/12 bg-[rgba(28,20,15,0.74)] px-3 py-1 text-[11px] tracking-[0.14em] text-amber-50/90 shadow-[0_10px_24px_rgba(0,0,0,0.22)] backdrop-blur-md whitespace-nowrap">

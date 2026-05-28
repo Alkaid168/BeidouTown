@@ -24,16 +24,20 @@ function getAvatarToken(nickname: string) {
   };
 }
 
-export function TavernAvatar({ nickname }: { nickname: string }) {
+export function TavernAvatar({ avatarUrl, nickname }: { avatarUrl?: string | null; nickname: string }) {
   const token = getAvatarToken(nickname);
 
   return (
     <div
       aria-label={`${nickname} 的头像`}
-      className="aspect-square size-12 shrink-0 border text-center text-xl font-semibold text-white/92 shadow-[0_0_18px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]"
+      className="aspect-square size-12 shrink-0 overflow-hidden border text-center text-xl font-semibold text-white/92 shadow-[0_0_18px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)]"
       style={{ backgroundColor: token.background, borderColor: token.border }}
     >
-      <span className="flex h-full items-center justify-center">{token.initial}</span>
+      {avatarUrl ? (
+        <img alt={`${nickname} 的头像`} className="h-full w-full object-cover" src={avatarUrl} />
+      ) : (
+        <span className="flex h-full items-center justify-center">{token.initial}</span>
+      )}
     </div>
   );
 }

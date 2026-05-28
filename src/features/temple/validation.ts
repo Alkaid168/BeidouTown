@@ -1,3 +1,5 @@
+import { getSpreadBySlug, type TempleSpreadSlug } from './spreads';
+
 export const MAX_TAROT_QUESTION_LENGTH = 300;
 
 type TarotQuestionResult =
@@ -16,4 +18,23 @@ export function parseTarotQuestion(input: string): TarotQuestionResult {
   }
 
   return { ok: true, question };
+}
+
+export function parseTempleQuestionInput(spreadSlugInput: string, questionInput: string) {
+  const spreadSlug = spreadSlugInput.trim() as TempleSpreadSlug;
+  const question = questionInput.trim();
+
+  if (!getSpreadBySlug(spreadSlug)) {
+    return { ok: false as const, error: '这座牌阵暂时还没有开放。' };
+  }
+
+  if (!question) {
+    return { ok: false as const, error: '请先说出你想问的问题。' };
+  }
+
+  if (question.length > MAX_TAROT_QUESTION_LENGTH) {
+    return { ok: false as const, error: '这个问题太长了，先收束成一句吧。' };
+  }
+
+  return { ok: true as const, spreadSlug, question };
 }

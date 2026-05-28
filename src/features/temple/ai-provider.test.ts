@@ -1,14 +1,46 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createNayutoTarotProvider, TarotAiProviderError } from './ai-provider';
-import type { TarotDrawnCard } from './types';
+import type { TempleDrawnCardView } from './types';
 
-const cards: TarotDrawnCard[] = [
-  { name: '星星', arcana: 'major', orientation: 'upright', position: '过去', meaning: '希望' },
-  { name: '月亮', arcana: 'major', orientation: 'reversed', position: '现在', meaning: '迷雾' },
-  { name: '太阳', arcana: 'major', orientation: 'upright', position: '可能的方向', meaning: '明朗' },
+const cards: TempleDrawnCardView[] = [
+  {
+    positionKey: 'past',
+    positionLabel: '过去',
+    revealOrder: 0,
+    cardKey: 'the-star',
+    cardNameCn: '星星',
+    romanIndex: 'XVII',
+    orientation: 'upright',
+    imagePath: '/tarot/the-star.png',
+  },
+  {
+    positionKey: 'present',
+    positionLabel: '现在',
+    revealOrder: 1,
+    cardKey: 'the-moon',
+    cardNameCn: '月亮',
+    romanIndex: 'XVIII',
+    orientation: 'reversed',
+    imagePath: '/tarot/the-moon.png',
+  },
+  {
+    positionKey: 'future',
+    positionLabel: '未来',
+    revealOrder: 2,
+    cardKey: 'the-sun',
+    cardNameCn: '太阳',
+    romanIndex: 'XIX',
+    orientation: 'upright',
+    imagePath: '/tarot/the-sun.png',
+  },
 ];
 
-const request = { question: '我该如何面对明天？', cards };
+const request = {
+  spreadSlug: 'classic-triangle' as const,
+  spreadTitle: '三牌 · 经典圣三角',
+  question: '我该如何面对明天？',
+  cards,
+};
 
 describe('createNayutoTarotProvider', () => {
   afterEach(() => {
@@ -34,6 +66,19 @@ describe('createNayutoTarotProvider', () => {
       }),
     );
     expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toMatchObject({ model: 'gpt-5.4-mini' });
+  });
+
+  it('requests stream mode for streaming interpretation', async () => {
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('data: [DONE]\n\n', { status: 200 }));
+    const provider = createNayutoTarotProvider({ apiKey: 'test-key', timeoutMs: 1000 });
+
+    const stream = await provider.streamReading?.(request);
+
+    expect(stream).toBeInstanceOf(ReadableStream);
+    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toMatchObject({
+      model: 'gpt-5.4-mini',
+      stream: true,
+    });
   });
 
   it('parses nested response text', async () => {

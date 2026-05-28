@@ -184,3 +184,15 @@ body {
     filter: brightness(1.06);
   }
 }
+
+@keyframes temple-card-pulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 12px rgba(255, 214, 156, 0.20));
+  }
+
+  50% {
+    transform: translateY(-4px) scale(1.02);
+    filter: drop-shadow(0 0 22px rgba(255, 214, 156, 0.34));
+  }
+}

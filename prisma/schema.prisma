@@ -23,18 +23,20 @@ enum TavernMessageDeleteReason {
 }
 
 model User {
-  id             String           @id @default(cuid())
-  email          String           @unique
-  passwordHash   String
-  nickname       String
-  avatarUrl      String?
-  role           UserRole         @default(USER)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  tavernMessages TavernMessage[]
-  treeholePosts  TreeholePost[]
-  tarotReadings  TarotReading[]
-  adminActions   AdminAction[]
+  id              String           @id @default(cuid())
+  email           String           @unique
+  passwordHash    String
+  nickname        String
+  avatarUrl       String?
+  signature       String?
+  role            UserRole         @default(USER)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  tavernMessages  TavernMessage[]
+  treeholePosts   TreeholePost[]
+  treeholeReplies TreeholeReply[]
+  tarotReadings   TarotReading[]
+  adminActions    AdminAction[]
 }
 
 model TavernMessage {
@@ -54,29 +56,65 @@ model TavernMessage {
 }
 
 model TreeholePost {
-  id          String   @id @default(cuid())
+  id          String          @id @default(cuid())
   authorId    String
+  title       String
   content     String
-  isAnonymous Boolean  @default(true)
-  isDeleted   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  isAnonymous Boolean         @default(true)
+  isDeleted   Boolean         @default(false)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  author      User            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  replies     TreeholeReply[]
 
   @@index([createdAt])
   @@index([authorId])
 }
 
+model TreeholeReply {
+  id          String       @id @default(cuid())
+  postId      String
+  authorId    String
+  content     String
+  isAnonymous Boolean      @default(true)
+  isDeleted   Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  post        TreeholePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author      User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([authorId])
+}
+
 model TarotReading {
-  id        String   @id @default(cuid())
-  userId    String
-  question  String
-  cards     Json
-  reading   String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String             @id @default(cuid())
+  userId     String
+  spreadType String             @default("classic-triangle")
+  question   String
+  reading    String
+  createdAt  DateTime           @default(now())
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards      TarotReadingCard[]
 
   @@index([createdAt])
   @@index([userId])
+  @@index([userId, createdAt])
+}
+
+model TarotReadingCard {
+  id            String       @id @default(cuid())
+  readingId     String
+  positionKey   String
+  positionLabel String
+  revealOrder   Int
+  cardKey       String
+  cardNameCn    String
+  romanIndex    String
+  orientation   String
+  imagePath     String
+  reading       TarotReading @relation(fields: [readingId], references: [id], onDelete: Cascade)
+
+  @@index([readingId, revealOrder])
 }
 
 model AdminAction {
