@@ -33,7 +33,8 @@ export function ResidentProfileClient({ profile }: { profile: ResidentProfileVie
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#05050a] text-stone-50">
-      <div className="absolute inset-0 bg-[url('/home-background.png')] bg-cover bg-center opacity-82 blur-[2.2px] scale-[1.018]" />
+      <div className="absolute inset-0 bg-[url('/home-background.jpg')] bg-cover bg-center opacity-82 blur-[2.2px] scale-[1.018]" />
+
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_20%,rgba(120,160,255,0.18),transparent_30%),radial-gradient(circle_at_76%_74%,rgba(255,151,213,0.14),transparent_28%),linear-gradient(180deg,rgba(4,7,19,0.84)_0%,rgba(8,10,24,0.62)_42%,rgba(8,10,20,0.84)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.32)_0_1px,transparent_1.5px)] bg-[length:86px_86px] opacity-18" />
       <div className="absolute inset-0 shadow-[inset_0_0_180px_rgba(0,0,0,0.84)]" />

@@ -77,7 +77,8 @@ export function HomeClient({ resident }: { resident: CurrentResident | null }) {
       onMouseMove={updateCursor}
       style={{ '--cursor-x': `${cursorTarget.x}%`, '--cursor-y': `${cursorTarget.y}%` } as CSSProperties}
     >
-      <div className="absolute inset-0 bg-[url('/home-background.png')] bg-cover bg-center opacity-82 blur-[2.2px] scale-[1.018]" />
+      <div className="absolute inset-0 bg-[url('/home-background.jpg')] bg-cover bg-center opacity-82 blur-[2.2px] scale-[1.018]" />
+
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_var(--cursor-x)_var(--cursor-y),rgba(255,151,213,0.18),rgba(118,202,255,0.08)_14%,transparent_30%),radial-gradient(circle_at_28%_24%,rgba(120,160,255,0.23),transparent_35%),radial-gradient(circle_at_80%_70%,transparent_0%,rgba(0,0,0,0.28)_58%,rgba(0,0,0,0.62)_100%),linear-gradient(90deg,rgba(4,7,19,0.88)_0%,rgba(7,9,22,0.66)_43%,rgba(10,12,20,0.42)_70%,rgba(255,255,255,0.05)_100%)] transition-[background] duration-700 ease-out" />
       <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.36)_0_1px,transparent_1.5px)] bg-[length:86px_86px] opacity-24 animate-[starfield-drift_34s_linear_infinite]" />
       <div className="absolute inset-0 bg-[linear-gradient(115deg,transparent_0%,rgba(255,207,236,0.13)_43%,rgba(130,206,255,0.12)_52%,transparent_64%)] opacity-45 animate-[aurora-sweep_18s_ease-in-out_infinite]" />

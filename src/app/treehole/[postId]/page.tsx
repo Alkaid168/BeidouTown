@@ -15,7 +15,7 @@ export default async function TreeholePostDetailPage({ params }: { params: Promi
 
   return (
     <TreeholeShell
-      backgroundImage="/treehole-letter-background.png"
+      backgroundImage="/treehole-letter-background.jpg"
       eyebrow="OPEN LETTER"
       returnHref="/treehole"
       returnLabel="回到邮局"

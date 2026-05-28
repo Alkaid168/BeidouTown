@@ -53,7 +53,7 @@ export function TempleCard({
           ].join(' ')}
         >
           <div className={`absolute inset-0 overflow-hidden rounded-[0.5rem] border border-[rgba(232,188,128,0.24)] bg-[rgba(20,14,10,0.78)] shadow-[0_18px_44px_rgba(0,0,0,0.34)] transition-all duration-500 ${revealed ? 'pointer-events-none scale-[0.96] opacity-0 blur-[2px]' : 'scale-100 opacity-100 blur-0'}`}>
-            <img alt="塔罗牌背" className="h-full w-full object-cover" src="/tarot/card-back.png" />
+            <img alt="塔罗牌背" className="h-full w-full object-cover" src="/tarot/card-back.webp" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(255,232,191,0.24),transparent_40%),linear-gradient(180deg,rgba(9,8,16,0.04),rgba(5,3,2,0.24))]" />
           </div>
           <div className={`absolute inset-0 overflow-hidden rounded-[0.5rem] border border-[rgba(232,188,128,0.24)] bg-[rgba(20,14,10,0.78)] shadow-[0_18px_44px_rgba(0,0,0,0.34)] transition-all duration-500 ${revealed ? 'scale-100 opacity-100 blur-0' : 'pointer-events-none scale-[1.04] opacity-0 blur-[2px]'}`}>

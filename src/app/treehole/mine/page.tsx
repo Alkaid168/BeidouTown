@@ -10,7 +10,7 @@ export default async function TreeholeMinePage() {
 
   return (
     <TreeholeShell
-      backgroundImage="/treehole-background.png"
+      backgroundImage="/treehole-background.jpg"
       eyebrow="MY LETTERS"
       returnHref="/treehole"
       returnLabel="回到邮局"

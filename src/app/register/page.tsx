@@ -9,7 +9,7 @@ export default async function RegisterPage({
   const params = await searchParams;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#05050a] bg-[url('/auth-background.png')] bg-cover bg-center px-6 py-10 text-stone-100">
+    <main className="relative min-h-screen overflow-hidden bg-[#05050a] bg-[url('/auth-background.jpg')] bg-cover bg-center px-6 py-10 text-stone-100">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_30%,rgba(255,222,164,0.16),transparent_28%),radial-gradient(circle_at_22%_32%,rgba(151,203,255,0.26),transparent_34%),linear-gradient(90deg,rgba(3,5,16,0.88)_0%,rgba(9,10,23,0.63)_48%,rgba(9,8,15,0.40)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.30)_0_1px,transparent_1.4px)] bg-[length:92px_92px] opacity-20 animate-[starfield-drift_40s_linear_infinite]" />
       <div className="absolute inset-0 shadow-[inset_0_0_160px_rgba(0,0,0,0.82)]" />

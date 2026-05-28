@@ -10,7 +10,7 @@ export default async function TreeholeMessagesPage() {
 
   return (
     <TreeholeShell
-      backgroundImage="/treehole-background.png"
+      backgroundImage="/treehole-background.jpg"
       description="这里会提醒你：有人读到了你的信，并留下了一封匿名回信。"
       eyebrow="LETTER NOTICES"
       title="消息"

@@ -7,7 +7,7 @@ export default async function TreeholeComposePage() {
 
   return (
     <TreeholeShell
-      backgroundImage="/treehole-compose-background.png"
+      backgroundImage="/treehole-compose-background.jpg"
       eyebrow="WRITE A LETTER"
       title="投稿"
     >
